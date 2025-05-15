@@ -1,0 +1,20 @@
+import java.io.InputStreamReader;
+
+import java_cup.runtime.*;
+
+parser code {: 
+    public static void main(String[] args) throws Exception {
+        MeuScanner meuScanner = new MeuScanner(new InputStreamReader(System.in));
+        Parser parser = new Parser(meuScanner);
+        parser.parse();
+    }
+:};
+
+terminal PLUS, NUM;
+non terminal expr;
+
+start with expr;
+
+expr ::= expr PLUS NUM {: System.out.println("Resultado parcial"); :}
+       | NUM           {: System.out.println("Número encontrado"); :}
+       ;
