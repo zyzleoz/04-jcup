@@ -108,13 +108,49 @@ public class Main {
 }
 ```
 
-7. Dar permissão de execução para o arquivo de script `executar.sh` (torná-lo executável):
+7. Criar o arquivo `executar.sh`:
+- `touch executar.sh`
+
+8. Informar o conteúdo do arquivo `executar.sh`:
+```bash
+#!/bin/bash
+
+# Remover arquivos:
+rm -rf *.class *.java~
+rm -rf jcup.jar AnalisadorSintatico.java sym.java 
+rm -rf jflex.jar AnalisadorLexico.java   
+
+# Baixar JFlex e JCup:
+wget https://repo1.maven.org/maven2/de/jflex/jflex/1.8.2/jflex-1.8.2.jar -O jflex.jar
+wget https://repo1.maven.org/maven2/com/github/vbmacher/java-cup/11b-20160615/java-cup-11b-20160615.jar -O jcup.jar
+
+# Gerar o Analisador Léxico:
+java -cp jflex.jar:jcup.jar jflex.Main exemplo.flex
+
+# Gerar o Analisador Sintático:
+java -cp jcup.jar java_cup.Main -parser AnalisadorSintatico exemplo.cup
+
+# Compilar as classes .java:
+javac -cp jcup.jar *.java
+
+# Executar a classe principal:
+echo "Digite uma expressão:"
+echo "Exemplos:"
+echo "(10 + 5) - 2; -> 13"
+echo "10 + (5 - 2); -> 13"
+echo "10 + 5 - 2;   -> 13"
+echo "10 - (5 + 2); ->  3"
+echo "10 - 5 + 2;   ->  7"
+java -cp .:jcup.jar Main
+```
+
+9. Dar permissão de execução para o arquivo de script `executar.sh` (torná-lo executável):
 - `chmod +x executar.sh`
 
-8. Executar o `executar.sh`:
+10. Executar o `executar.sh`:
 - `./executar.sh`
 
-9. Informar expressões matemáticas do tipo: 
+11. Informar expressões matemáticas do tipo: 
 - `1 + (2 - 7);` (é necessário terminar com ";")
 
 - `1 * 7;` (é necessário terminar com ";")
