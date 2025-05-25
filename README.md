@@ -39,13 +39,9 @@ inteiro = {digito}+
 ";"       { return new Symbol(sym.PTVIRG); }
 \n        { /* Ignora nova linha. */ }
 [ \t\r]+  { /* Ignora espaços. */ }
-.         { System.err.println(
-              """
-                Caractere inválido: \{yytext()}
-                Linha:              \{yyline}
-                Coluna:             \{yycolumn}
-              """
-            ); 
+.         { System.err.println("\n Caractere inválido: " + yytext() +
+                               "\n Linha: " + yyline +
+                               "\n Coluna: " + yycolumn + "\n"); 
             return null; 
           }
 ```
