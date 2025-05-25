@@ -1,0 +1,4 @@
+*.class
+AnalisadorLexico.java
+AnalisadorSintatico.java
+sym.java

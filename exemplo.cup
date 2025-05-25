@@ -1,20 +1,20 @@
-import java.io.InputStreamReader;
-
 import java_cup.runtime.*;
 
-parser code {: 
-    public static void main(String[] args) throws Exception {
-        MeuScanner meuScanner = new MeuScanner(new InputStreamReader(System.in));
-        Parser parser = new Parser(meuScanner);
-        parser.parse();
-    }
-:};
+terminal Integer INTEIRO;
+terminal MAIS, MENOS, PTVIRG, PARENTESQ, PARENTDIR;
 
-terminal PLUS, NUM;
-non terminal expr;
+non terminal inicio;
+non terminal Integer expr;
 
-start with expr;
+precedence left MAIS, MENOS;
 
-expr ::= expr PLUS NUM {: System.out.println("Resultado parcial"); :}
-       | NUM           {: System.out.println("Número encontrado"); :}
+start with inicio;
+
+inicio ::= expr:e PTVIRG {: System.out.println(e); :}
+         ;
+
+expr ::= expr:a MAIS expr:b         {: RESULT = a.intValue() + b.intValue(); :}
+       | expr:a MENOS expr:b        {: RESULT = a.intValue() - b.intValue(); :}
+       | PARENTESQ expr:a PARENTDIR {: RESULT = a.intValue(); :}
+       | INTEIRO:a                  {: RESULT = a.intValue(); :}
        ;
